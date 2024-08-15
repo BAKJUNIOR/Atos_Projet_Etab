@@ -4,11 +4,7 @@ import org.example.dao.IEleveDAO;
 import org.example.model.Eleve;
 import org.example.services.IEleveService;
 
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class EleveServiceImpl implements IEleveService {
 
@@ -18,10 +14,9 @@ public class EleveServiceImpl implements IEleveService {
         this.eleveDAO = eleveDAO;
     }
 
-
     @Override
     public Eleve save(Eleve eleve) {
-        return null;
+        return eleveDAO.ajouter(eleve);
     }
 
     @Override
@@ -43,7 +38,4 @@ public class EleveServiceImpl implements IEleveService {
     public Eleve getOne(int id) {
         return eleveDAO.obtenir(id);
     }
-
-
-
 }

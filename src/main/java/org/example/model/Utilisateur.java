@@ -25,13 +25,25 @@ public class Utilisateur {
     private String identifiant;
     private String motDePass;
 
+    /**
+     * Constructeur par défaut de la classe {@code Utilisateur}.
+     */
     public Utilisateur() {
     }
+
+    /**
+     * Constructeur avec paramètres de la classe {@code Utilisateur}.
+     *
+     * @param id          L'ID de l'utilisateur.
+     * @param identifiant L'identifiant de l'utilisateur.
+     * @param motDePass   Le mot de passe de l'utilisateur.
+     */
     public Utilisateur(int id, String identifiant, String motDePass) {
         this.id = id;
         this.identifiant = identifiant;
         this.motDePass = motDePass;
     }
+
     static Scanner scanner = new Scanner(System.in);
 
     /**
@@ -39,6 +51,7 @@ public class Utilisateur {
      * La méthode vérifie les identifiants et informe l'utilisateur si la connexion est réussie ou non.
      *
      * @return {@code true} si les identifiants sont corrects, {@code false} sinon.
+     * @throws SQLException si une erreur SQL se produit lors de l'authentification.
      */
     public boolean Authentification() throws SQLException {
         boolean auth = false;
@@ -63,13 +76,15 @@ public class Utilisateur {
             }
         }
         return auth;
-
     }
-
 
     private static final String QUERY_VERIFIER_UTILISATEUR = "SELECT COUNT(*) FROM Utilisateur WHERE pseudo = ?";
     private static final String QUERY_AJOUTER_UTILISATEUR = "INSERT INTO Utilisateur (pseudo, motDePasse, dateCreation) VALUES (?, ?, NOW())";
 
+    /**
+     * Initialise la base de données en vérifiant l'existence de l'utilisateur 'admin'.
+     * Si l'utilisateur 'admin' n'existe pas, il est ajouté à la base de données.
+     */
     public static void initialiser() {
         try (Connection connexion = SingletonDataBase.getInstance()) {
 
@@ -98,15 +113,6 @@ public class Utilisateur {
         }
     }
 
-
-
-
-
-
-
-
-
-
     /**
      * Affiche le menu principal pour la gestion des utilisateurs et traite les choix de l'utilisateur.
      * La méthode gère les opérations telles que l'ajout, la suppression, la modification des utilisateurs,
@@ -127,7 +133,7 @@ public class Utilisateur {
                     "1: Ajouter un utilisateur \n" + "    " +
                     "2: Supprimer un utilisateur \n" + "    " +
                     "3: Modifier les informations d'utilisateur\n" + "    " +
-                    "4: Lister les utilisateur \n" + "    " +
+                    "4: Lister les utilisateurs \n" + "    " +
                     "5: Retour \n" + "    " +
                     "0: Quitter\n");
             System.out.print("Votre choix : ");
@@ -159,34 +165,74 @@ public class Utilisateur {
         } while (choix != 6);
     }
 
+    /**
+     * Retourne l'ID de l'utilisateur.
+     *
+     * @return L'ID de l'utilisateur.
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Définit l'ID de l'utilisateur.
+     *
+     * @param id L'ID de l'utilisateur.
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * Retourne l'identifiant de l'utilisateur.
+     *
+     * @return L'identifiant de l'utilisateur.
+     */
     public String getIdentifiant() {
         return identifiant;
     }
 
+    /**
+     * Définit l'identifiant de l'utilisateur.
+     *
+     * @param identifiant L'identifiant de l'utilisateur.
+     */
     public void setIdentifiant(String identifiant) {
         this.identifiant = identifiant;
     }
 
+    /**
+     * Retourne le mot de passe de l'utilisateur.
+     *
+     * @return Le mot de passe de l'utilisateur.
+     */
     public String getMotDePass() {
         return motDePass;
     }
 
+    /**
+     * Définit le mot de passe de l'utilisateur.
+     *
+     * @param motDePass Le mot de passe de l'utilisateur.
+     */
     public void setMotDePass(String motDePass) {
         this.motDePass = motDePass;
     }
 
+    /**
+     * Retourne le scanner utilisé pour les entrées utilisateur.
+     *
+     * @return Le scanner.
+     */
     public static Scanner getScanner() {
         return scanner;
     }
 
+    /**
+     * Définit le scanner utilisé pour les entrées utilisateur.
+     *
+     * @param scanner Le scanner.
+     */
     public static void setScanner(Scanner scanner) {
         Utilisateur.scanner = scanner;
     }

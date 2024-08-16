@@ -1,4 +1,4 @@
-# ETAB v1.2
+# ETAB v0.1
 
 **ETAB v1.2** est une application Java console qui permet la gestion des élèves, des professeurs, et des utilisateurs au sein d'un établissement. Le projet utilise JDBC pour la connexion à une base de données MySQL.
 

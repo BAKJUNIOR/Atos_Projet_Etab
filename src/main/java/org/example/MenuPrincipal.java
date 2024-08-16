@@ -3,13 +3,13 @@ package org.example;
 import org.example.dao.impl.EleveDaoImpl;
 import org.example.dao.impl.ProfesseurDaoImpl;
 import org.example.exceptions.MenuNotFoundException;
-import org.example.model.Eleve;
-import org.example.model.Professeur;
 import org.example.model.Utilisateur;
+import org.example.services.impl.EleveServiceImpl;
+import org.example.services.impl.ProfesseurServiceImpl;
+import org.example.services.impl.UtilisateurServiceImpl;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -19,9 +19,14 @@ public class MenuPrincipal {
     Instant debutSession = Instant.now();
     Scanner scanner = new Scanner(System.in);
 
-    // Ajouter une instance d'EleveDaoImpl
+    // Ajouter une instance d'EleveDaoImpl et EleveServiceImpl
     EleveDaoImpl eleveDao = new EleveDaoImpl();
-   ProfesseurDaoImpl professeurDao = new ProfesseurDaoImpl();
+    EleveServiceImpl eleveService = new EleveServiceImpl(eleveDao);
+
+    ProfesseurDaoImpl professeurDao = new ProfesseurDaoImpl();
+    ProfesseurServiceImpl professeurService = new ProfesseurServiceImpl(professeurDao);
+
+    UtilisateurServiceImpl utilisateurService = new UtilisateurServiceImpl();
 
     public void afficherMenu() {
 
@@ -42,20 +47,19 @@ public class MenuPrincipal {
 
         switch (choix) {
             case 1:
-                eleveDao.afficherMenuGestionEleves();
+                eleveService.afficherMenuGestionEleves();
                 break;
             case 2:
-                professeurDao.afficherMenuGestionProfesseurs();
+                professeurService.afficherMenuGestionProfesseurs();
                 break;
             case 3:
-                Utilisateur.afficherMenu();
+                utilisateurService.afficherMenu();
                 break;
             case 0:
                 finSession();
                 System.exit(0);
                 return;
             default:
-                // Ce cas ne sera jamais atteint à cause de la vérification dans MenuUtils
                 break;
         }
     }

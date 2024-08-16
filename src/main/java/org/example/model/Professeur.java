@@ -48,14 +48,15 @@ public class Professeur extends Personne  {
      * @param telephone     Le numéro de téléphone du professeur.
      */
 
-    public Professeur(int id, LocalDate dateNaissance, String ville, String prenom, String nom, String telephone) {
+    public Professeur(int id, LocalDate dateNaissance, String ville, String prenom, String nom, String telephone,
+                      boolean vacant, String matiereEnseigne, String prochainCours, String sujetProchaineReunion) {
         super(id, dateNaissance, ville, prenom, nom, telephone);
+        this.vacant = vacant;
+        this.matiereEnseigne = matiereEnseigne;
+        this.prochainCours = prochainCours;
+        this.sujetProchaineReunion = sujetProchaineReunion;
     }
 
-
-   public static void afficherMenu(){
-
-   }
 
     public boolean isVacant() {
         return vacant;

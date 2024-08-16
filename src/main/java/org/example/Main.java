@@ -1,6 +1,8 @@
 package org.example;
 
+import org.example.dao.impl.UtilisateurDaoImpl;
 import org.example.model.Utilisateur;
+import org.example.services.impl.UtilisateurServiceImpl;
 
 import java.sql.SQLException;
 
@@ -18,14 +20,9 @@ public class Main {
      * @throws SQLException Si une erreur SQL se produit lors de l'initialisation ou de l'authentification.
      */
     public static void main(String[] args) throws SQLException {
-        Utilisateur utilisateur = new Utilisateur();
-
-        // Initialise l'utilisateur par défaut (par exemple, "admin") si nécessaire.
-        utilisateur.initialiser();
-
-        // Vérifie l'authentification de l'utilisateur.
-        if (utilisateur.Authentification()) {
-            // Affiche le menu principal si l'authentification est réussie.
+        UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl();
+        utilisateurDao.initialiser();
+        if (utilisateurDao.Authentification()) {
             MenuPrincipal menuPrincipal = new MenuPrincipal();
             menuPrincipal.afficherMenu();
         }

@@ -5,7 +5,6 @@ import org.example.exceptions.MenuNotFoundException;
 
 import java.time.LocalDate;
 
-import static org.example.model.Utilisateur.scanner;
 
 
 /**
@@ -35,7 +34,6 @@ public class Eleve extends Personne {
         this.classe = classe;
         this.matricule = matricule;
     }
-
 
     public String getClasse() {
         return classe;

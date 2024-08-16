@@ -44,196 +44,27 @@ public class Utilisateur {
         this.motDePass = motDePass;
     }
 
-    static Scanner scanner = new Scanner(System.in);
-
-    /**
-     * Permet à un utilisateur de se connecter en fournissant un identifiant et un mot de passe.
-     * La méthode vérifie les identifiants et informe l'utilisateur si la connexion est réussie ou non.
-     *
-     * @return {@code true} si les identifiants sont corrects, {@code false} sinon.
-     * @throws SQLException si une erreur SQL se produit lors de l'authentification.
-     */
-    public boolean Authentification() throws SQLException {
-        boolean auth = false;
-        System.out.println("     * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n" +
-                "     " +
-                "      BIENVENU DANS L’APPLICATION ETAB v1.2 \n" +
-                "      * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n" +
-                "CONNEXION\n");
-
-        while (!auth) {  // Boucle jusqu'à ce que l'authentification soit réussie
-            System.out.print("Identifiant : ");
-            String username = scanner.nextLine();
-            System.out.print("Mot de passe : ");
-            String password = scanner.nextLine();
-            IUtilisateurService utilisateurService = new UtilisateurServiceImpl();
-            auth = utilisateurService.authentification(username, password);
-
-            if (auth) {
-                System.out.println("Connexion réussie ! \n\n");
-            } else {
-                System.out.println("Identifiant ou Mot de passe incorrect. Veuillez réessayer.\n\n");
-            }
-        }
-        return auth;
-    }
-
-    private static final String QUERY_VERIFIER_UTILISATEUR = "SELECT COUNT(*) FROM Utilisateur WHERE pseudo = ?";
-    private static final String QUERY_AJOUTER_UTILISATEUR = "INSERT INTO Utilisateur (pseudo, motDePasse, dateCreation) VALUES (?, ?, NOW())";
-
-    /**
-     * Initialise la base de données en vérifiant l'existence de l'utilisateur 'admin'.
-     * Si l'utilisateur 'admin' n'existe pas, il est ajouté à la base de données.
-     */
-    public static void initialiser() {
-        try (Connection connexion = SingletonDataBase.getInstance()) {
-
-            // Vérifier si l'utilisateur existe déjà
-            try (PreparedStatement instructionVerifier = connexion.prepareStatement(QUERY_VERIFIER_UTILISATEUR)) {
-                instructionVerifier.setString(1, "admin");
-
-                try (ResultSet resultat = instructionVerifier.executeQuery()) {
-                    if (resultat.next() && resultat.getInt(1) > 0) {
-                        System.out.println("Utilisateur existe déjà.");
-                        return;
-                    }
-                }
-            }
-
-            // Ajouter l'utilisateur si non existant
-            try (PreparedStatement instructionAjouter = connexion.prepareStatement(QUERY_AJOUTER_UTILISATEUR)) {
-                instructionAjouter.setString(1, "admin");
-                instructionAjouter.setString(2, "admin");
-                instructionAjouter.executeUpdate();
-                System.out.println("Utilisateur 'admin' ajouté avec succès.");
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Affiche le menu principal pour la gestion des utilisateurs et traite les choix de l'utilisateur.
-     * La méthode gère les opérations telles que l'ajout, la suppression, la modification des utilisateurs,
-     * et l'affichage de la liste des utilisateurs.
-     */
-    public static void afficherMenu() {
-        Instant debutSession = Instant.now();  // Capturer l'instant du début de la session
-
-        int choix;
-
-        do {
-            System.out.println("     * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n" +
-                    "     " +
-                    "     GESTION DES UTILISATEURS \n" +
-                    "      * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n" + "\n\n" +
-
-                    "  MENU: \n\n" + "    " +
-                    "1: Ajouter un utilisateur \n" + "    " +
-                    "2: Supprimer un utilisateur \n" + "    " +
-                    "3: Modifier les informations d'utilisateur\n" + "    " +
-                    "4: Lister les utilisateurs \n" + "    " +
-                    "5: Retour \n" + "    " +
-                    "0: Quitter\n");
-            System.out.print("Votre choix : ");
-
-            choix = MenuNotFoundException.obtenirChoixUtilisateur(scanner, 6);
-
-            switch (choix) {
-                case 1:
-                    // Implémentation de l'ajout d'un utilisateur à ajouter ici
-                    break;
-                case 5:
-                    new MenuPrincipal().afficherMenu();
-                    break;
-                case 0:
-                    Instant finSession = Instant.now();  // Capturer l'instant de la fin de la session
-                    Duration duree = Duration.between(debutSession, finSession);
-
-                    long heures = duree.toHours();
-                    long minutes = duree.toMinutes() % 60;
-                    long secondes = duree.getSeconds() % 60;
-
-                    System.out.println("Merci d'avoir utilisé l'application ETAB. Au revoir !");
-                    System.out.println("Durée de la session : " + heures + " heures, " + minutes + " minutes, " + secondes + " secondes.");
-                    System.exit(0);
-
-                default:
-                    System.out.println("Choix invalide. Veuillez réessayer.");
-            }
-        } while (choix != 6);
-    }
-
-    /**
-     * Retourne l'ID de l'utilisateur.
-     *
-     * @return L'ID de l'utilisateur.
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     * Définit l'ID de l'utilisateur.
-     *
-     * @param id L'ID de l'utilisateur.
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     * Retourne l'identifiant de l'utilisateur.
-     *
-     * @return L'identifiant de l'utilisateur.
-     */
     public String getIdentifiant() {
         return identifiant;
     }
 
-    /**
-     * Définit l'identifiant de l'utilisateur.
-     *
-     * @param identifiant L'identifiant de l'utilisateur.
-     */
     public void setIdentifiant(String identifiant) {
         this.identifiant = identifiant;
     }
 
-    /**
-     * Retourne le mot de passe de l'utilisateur.
-     *
-     * @return Le mot de passe de l'utilisateur.
-     */
     public String getMotDePass() {
         return motDePass;
     }
 
-    /**
-     * Définit le mot de passe de l'utilisateur.
-     *
-     * @param motDePass Le mot de passe de l'utilisateur.
-     */
     public void setMotDePass(String motDePass) {
         this.motDePass = motDePass;
-    }
-
-    /**
-     * Retourne le scanner utilisé pour les entrées utilisateur.
-     *
-     * @return Le scanner.
-     */
-    public static Scanner getScanner() {
-        return scanner;
-    }
-
-    /**
-     * Définit le scanner utilisé pour les entrées utilisateur.
-     *
-     * @param scanner Le scanner.
-     */
-    public static void setScanner(Scanner scanner) {
-        Utilisateur.scanner = scanner;
     }
 }

@@ -12,4 +12,5 @@ public interface IUtilisateurService {
     public boolean modifierMotDepass(String identifiant, String motDePasse);
     public boolean supprimerCompte(String identifiant, String motDePasse);
     public List<Utilisateur> listeUtilisateur();
+    boolean saveUser(Utilisateur utilisateur); // Ajout de la méthode pour enregistrer un utilisateur
 }
